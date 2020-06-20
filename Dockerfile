@@ -1,6 +1,9 @@
 FROM python:3.8-alpine
 WORKDIR /app
-COPY requirements.txt .
+ENV FLASK_APP microblog.py
+ENV FLASK_RUN_HOST 0.0.0.0
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-COPY . /app
-CMD ["flask", "run", "--host=0.0.0.0"]
+COPY . .
+RUN "echo 'prueba'"
+CMD ["flask", "run"]
