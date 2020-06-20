@@ -18,15 +18,15 @@ pipeline {
             }
         }
         stage('Deploy') {
-            steps {
+            environment {
+                MAIL_SERVER     = 'smtp.mailtrap.io'
+                MAIL_PORT = '587'
+                MAIL_USE_TLS     = '1'
                 environment {
-                    MAIL_SERVER     = 'smtp.mailtrap.io'
-                    MAIL_PORT = '587'
-                    MAIL_USE_TLS     = '1'
-                    environment {
-                        MAIL_CREDS = "mail-user-and-password-secret"
-                    }
+                    MAIL_CREDS = "mail-user-and-password-secret"
                 }
+            }
+            steps {                
                 sh "echo 'prueba 3'"
                 sh 'echo "Service user is $MAIL_CREDS"'
             }
