@@ -27,8 +27,7 @@ pipeline {
             steps {
                 createFlaskEnv()
                 sh 'docker build . -t gomezendy/microblog:latest'
-                sh 'docker run gomezendy/microblog:latest'
-                sh ''
+                sh 'docker run --rm -d -p 5000:5000 --name flask-app gomezendy/microblog:latest'
             }
         }
     }
