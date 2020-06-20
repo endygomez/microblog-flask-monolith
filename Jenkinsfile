@@ -24,10 +24,22 @@ pipeline {
                 MAIL_USE_TLS     = '1'
                 MAIL_CREDS = credentials("mail-user-and-password-secret")
             }
-            steps {                
-                sh "echo 'prueba 3'"
-                sh 'echo "Service user is $MAIL_CREDS_USR"'
+            steps {
+                createFlaskEnv()
+                sh 'docker build . -t gomezendy/microblog:latest'
+                sh 'docker run gomezendy/microblog:latest'
+                sh ''
             }
         }
     }
+}
+
+def createFlaskEnv(){
+    sh 'echo FLASK_APP=$FLASK_APP > .flaskenv'
+    sh 'echo FLASK_DEBUG=$FLASK_DEBUG >> .flaskenv'
+    sh 'echo MAIL_SERVER=$MAIL_SERVER >> .flaskenv'
+    sh 'echo MAIL_PORT=$MAIL_PORT >> .flaskenv'
+    sh 'echo MAIL_USE_TLS=$MAIL_USE_TLS >> .flaskenv'
+    sh 'echo MAIL_USERNAME=$MAIL_CREDS_USR >> .flaskenv'
+    sh 'echo MAIL_PASSWORD=$MAIL_CREDS_PSW >> .flaskenv'
 }
